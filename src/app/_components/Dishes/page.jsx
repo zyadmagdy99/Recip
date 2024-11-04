@@ -68,7 +68,7 @@ export default function dishes() {
                     
                 {meals.map((meal) => (
                     <div  key={meal.idCategory} className='flex px-3 mx-3 flex-col justify-center items-center h-[160px] w-[30px] bg-[#EFEFF1] gap-12 mt-20'>
-                        <Link href={`categories/${meal.strCategory}`} className='w-[200px] outline-none flex justify-center items-center translate-x-[40px] mt-8 translate-y-[-70px]'>
+                        <Link href={`categories/${meal.strCategory}`} className='w-[200px] outline-none flex justify-center items-center translate-x-[55px] mt-8 translate-y-[-70px]'>
                             <img className='w-full shadow-xl rounded-full' src={meal.strCategoryThumb} alt={meal.strCategory} />
                         </Link>
                         <h3 className='text-center  translate-y-[-40px]'>{meal.strCategory}</h3> 

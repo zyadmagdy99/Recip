@@ -83,7 +83,7 @@ export default function Name() {
                     
                 {meals.map((meal) => (
                     <div key={meal.idMeal} className='flex  flex-col justify-center items-center h-[160px] w-[30px] bg-[#EFEFF1] gap-12 mt-20'>
-                        <Link href={`/meals/${meal.strMeal}`}  className='w-[150px] outline-none flex justify-center items-center px-3 mx-3 translate-x-[80px] mt-8 translate-y-[-70px]'>
+                        <Link href={`/meals/${meal.strMeal}`}  className='w-[150px] outline-none flex justify-center items-center px-3 mx-3 translate-x-[100px] mt-8 translate-y-[-70px]'>
                             <img className='w-full shadow-xl rounded-full' src={meal.strMealThumb} alt={meal.strCategory} />
                         </Link>
                         <h3 className='text-center text-red-500 translate-y-[-40px]'>{meal.strMeal}</h3> 
