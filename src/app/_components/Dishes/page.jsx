@@ -7,6 +7,13 @@ import axios from "axios";
 import Link from 'next/link';
 export default function dishes() {
     const [meals, setmeals] = useState([])
+      const [loading, setloading] = useState(false)
+        
+        if (loading) {
+          return <div className="flex justify-center items-center h-screen">
+            <span class="loader"></span>
+          </div>
+        }
   
     function getMeals() {
 
@@ -19,9 +26,12 @@ export default function dishes() {
     console.log(meals);
     
     useEffect(() => {
-      getMeals()
-    
-      
+  setloading(true)
+        async function getM() {
+            await getMeals()    
+        }
+    getM()
+      setloading(false)
     }, [])
     
     var settings = {
@@ -70,7 +80,7 @@ export default function dishes() {
                     
                 {meals.map((meal) => (
                     <div  key={meal.idCategory} className='flex px-3 mx-3  flex-col justify-center items-center h-[160px] w-[30px] bg-[#EFEFF1] gap-12 mt-20'>
-                        <Link href={`categories/${meal.strCategory}`} className='w-[200px] transform duration-1000 transition-transform hover:rotate-[20deg] outline-none flex justify-center items-center translate-x-[55px] mt-8 translate-y-[-70px]'>
+                        <Link rel='preload' href={`categories/${meal.strCategory}`} className='w-[200px] transform duration-1000 transition-transform hover:rotate-[20deg] outline-none flex justify-center items-center translate-x-[55px] mt-8 translate-y-[-70px]'>
                             <img className='w-full shadow-xl rounded-full' src={meal.strCategoryThumb} alt={meal.strCategory} />
                         </Link>
                         <h3 className='text-center  translate-y-[-40px]'>{meal.strCategory}</h3> 

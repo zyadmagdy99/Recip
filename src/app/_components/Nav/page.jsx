@@ -39,7 +39,7 @@ export default function Nav() {
   <div className="mx-auto w-full max-w-[80rem] px-4 sm:px-6 lg:px-8">
     <div className="flex h-16 items-center justify-between gap-9">
       <div className="flex-1 md:flex md:items-center md:gap-12">
-        <Link className="flex md:flex-row flex-col-reverse md:justify-center  items-center text-teal-600" href="/">
+        <Link rel='preload' className="flex md:flex-row flex-col-reverse md:justify-center  items-center text-teal-600" href="/">
           <span className="md:text-[30px] text-green-500">Foodix</span>
           <Image src={"/logo.jpeg"} width={60} height={50}  alt='logo'/>
         </Link>

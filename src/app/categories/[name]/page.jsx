@@ -10,18 +10,26 @@ import Link from 'next/link';
 export default function Name() {
     const [meals, setmeals] = useState([])
     let params = useParams()
-    const {name} = params;    
-  
+    const {name} = params;
+        const [loading, setloading] = useState(false)
+    
+    if (loading) {
+      return <div className="flex justify-center items-center h-screen">
+        <div className="loader">Loading...</div>
+      </div>
+    }
     useEffect(() => {
+      setloading(true)
       async function getcategory() {
         try {
           let { name } = params
-          await getcat(name)  
+          await getcat(name)  // Ensure the API call is awaited
         } catch (error) {
-          console.error(error)
+          console.error("Error fetching category:", error)
         }
       }
       getcategory()
+      setloading(false)
     }, [params])
     function getcat(name){
         axios.get(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${name}`)
@@ -73,12 +81,14 @@ export default function Name() {
     <div className='flex flex-col gap-10  '>
       <div className='flex justify-center items-center'>
         <div className='h-[40rem] w-full md:w-[80%]  lg:block  m-auto'>
-        <img  className='h-full rounded-xl w-full object-cover' src="../menu.jpg" alt="" />
+        <img  className='h-full rounded-xl w-full object-cover' src="../menu.jpg" alt="menu" />
         </div>
 
 <div className='h-[40rem] hidden lg:block w-1/5 m-auto'>
-<img  className='h-1/2 rounded-xl w-full object-cover' src="../break.jpg" alt="" />
-<img  className='h-1/2 w-full object-cover rounded-xl' src="../launch.jpg" alt="" />
+<img   loading="lazy" 
+ className='h-1/2 rounded-xl w-full object-cover' src="../break.jpg" alt="break" />
+<img   loading="lazy" 
+  className='h-1/2 w-full object-cover rounded-xl' src="../launch.jpg" alt="lauch" />
 </div>
 
       </div>
@@ -93,8 +103,10 @@ export default function Name() {
                     
                 {meals.map((meal) => (
                    
-                    <Link key={meal.idMeal} href={`/meals/${meal.strMeal}`} className="group  relative block  bg-black">
+                    <Link  rel="preconnect" key={meal.idMeal} href={`/meals/${meal.strMeal}`} className="group  relative block  bg-black">
                     <img
+                      loading="lazy" 
+
                       alt={meal.strCategory}
                       src={meal.strMealThumb}
                       className="absolute inset-0 h-full w-full object-cover opacity-75 transition-opacity group-hover:opacity-50"

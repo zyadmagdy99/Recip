@@ -12,7 +12,13 @@ export default function Meal() {
     
     const [meals, setmeals] = useState([])
     const [ErrorP, setError] = useState(false)
-    
+      const [loading, setloading] = useState(false)
+        
+        if (loading) {
+          return <div className="flex justify-center items-center h-screen">
+            <div className="loader">Loading...</div>
+          </div>
+        }
     
    async function getmeal(meal){
        await axios.get(`https://www.themealdb.com/api/json/v1/1/search.php?s=${meal}`)
@@ -25,9 +31,11 @@ export default function Meal() {
         })
     } 
     useEffect(() => {
+      setloading(true)
        let {meal} =params
        console.log(meal);
          getmeal(meal)
+         setloading(false)
    }, [params])
 
    if(ErrorP){
@@ -37,7 +45,8 @@ export default function Meal() {
   return (
     <div className='md:flex flex-col md:p-4 md:justify-around gap-10'>
         <div className='flex flex-col md:flex-row justify-around'>
-      <motion.div initial={{opacity:0, x:-250 }} transition={{delay:1}} animate={{x:0,opacity :1}} className='w-full md:w-1/2 overflow-hidden md:max-w-[30rem]'><img src={meals.strMealThumb} className='w-full md:rounded-xl object-cover' alt="" /></motion.div>
+      <motion.div initial={{opacity:0, x:-250 }} transition={{delay:1}} animate={{x:0,opacity :1}} className='w-full md:w-1/2 overflow-hidden md:max-w-[30rem]'><img   loading="lazy" 
+ src={meals.strMealThumb} className='w-full md:rounded-xl object-cover' alt="" /></motion.div>
       <motion.div initial={{opacity:0, x:250 }} transition={{delay:1.5}} animate={{x:0,opacity :1}} className='p-3 flex flex-col gap-4 overflow-hidden md:w-1/2'>
         <h1 className='text-4xl text-center text-red-500'>{meals.strMeal}</h1>
         <h1 className='text-3xl font-semibold'>Instractions</h1>
@@ -79,10 +88,7 @@ export default function Meal() {
         <p className='flex justify-center text-[30px] mt-5 md:text-[40px] text-green-500 animate-pulse'>How to Do? Watch Now</p>
       <div className='flex justify-center '>
       <a  href={meals.strYoutube} target="_blank" rel="noreferrer">
-                    <img className='max-h-[40rem] w-[70rem]' 
-                        src={`/poster.jpg`}
-
-                     alt={meals.strMeal} loading='lazy'/>
+                    <img  className='max-h-[40rem] w-[70rem]' src={`/poster.jpg`} alt={meals.strMeal} loading='lazy'/>
             </a>
       </div>
     </div>
