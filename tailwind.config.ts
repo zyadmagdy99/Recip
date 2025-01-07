@@ -12,6 +12,10 @@ const config: Config = {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      animation: {
+        slowspin: 'spin 10s linear infinite',  // 3 seconds per rotation
+        fastspin: 'spin 500ms linear infinite', // Faster spin
+      },
     },
   },
   plugins: [],

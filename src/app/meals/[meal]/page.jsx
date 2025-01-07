@@ -3,18 +3,25 @@ import axios from 'axios'
 import { useParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { motion } from "framer-motion"
+import Error from '../../_components/Error'
 
 
 export default function Meal() {
+    
     let params = useParams()
-
+    
     const [meals, setmeals] = useState([])
-    function getmeal(meal){
-        axios.get(`https://www.themealdb.com/api/json/v1/1/search.php?s=${meal}`)
+    const [ErrorP, setError] = useState(false)
+    
+    
+   async function getmeal(meal){
+       await axios.get(`https://www.themealdb.com/api/json/v1/1/search.php?s=${meal}`)
         .then((res)=>{
-            console.log(res.data.meals[0]);
+            console.log("themeal",res.data.meals[0].strYoutube);
             setmeals(res.data.meals[0])
             
+        }).catch((err)=>{
+          setError(true)
         })
     } 
     useEffect(() => {
@@ -22,15 +29,19 @@ export default function Meal() {
        console.log(meal);
          getmeal(meal)
    }, [params])
+
+   if(ErrorP){
+    return <Error/>
+   }
    
   return (
-    <div className='md:flex md:p-4 md:justify-around '>
-        
-      <motion.div initial={{opacity:0, x:-250 }} transition={{delay:1}} animate={{x:0,opacity :1}} className='w-full  md:w-1/2 overflow-hidden md:max-w-[30rem]'><img src={meals.strMealThumb} className='w-full md:rounded-xl object-cover' alt="" /></motion.div>
+    <div className='md:flex flex-col md:p-4 md:justify-around gap-10'>
+        <div className='flex flex-col md:flex-row justify-around'>
+      <motion.div initial={{opacity:0, x:-250 }} transition={{delay:1}} animate={{x:0,opacity :1}} className='w-full md:w-1/2 overflow-hidden md:max-w-[30rem]'><img src={meals.strMealThumb} className='w-full md:rounded-xl object-cover' alt="" /></motion.div>
       <motion.div initial={{opacity:0, x:250 }} transition={{delay:1.5}} animate={{x:0,opacity :1}} className='p-3 flex flex-col gap-4 overflow-hidden md:w-1/2'>
         <h1 className='text-4xl text-center text-red-500'>{meals.strMeal}</h1>
         <h1 className='text-3xl font-semibold'>Instractions</h1>
-        <motion.div  className='text-xs text-[#000000b2] line-clamp-[15]'>
+        <motion.div  className='text-sm text-[#000000b2] line-clamp-[15]'>
             {meals.strInstructions}
         </motion.div>
         <div>
@@ -63,6 +74,17 @@ export default function Meal() {
         </div>
         </div>
       </motion.div>
+            
+        </div>
+        <p className='flex justify-center text-[30px] mt-5 md:text-[40px] text-green-500 animate-pulse'>How to Do? Watch Now</p>
+      <div className='flex justify-center '>
+      <a  href={meals.strYoutube} target="_blank" rel="noreferrer">
+                    <img className='max-h-[40rem] w-[70rem]' 
+                        src={`/poster.jpg`}
+
+                     alt={meals.strMeal} loading='lazy'/>
+            </a>
+      </div>
     </div>
   )
 }
