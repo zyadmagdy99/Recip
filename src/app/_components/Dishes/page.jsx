@@ -5,35 +5,33 @@ import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import axios from "axios";
 import Link from 'next/link';
+import { useQuery } from '@tanstack/react-query';
+import Image from 'next/image';
 export default function dishes() {
-    const [meals, setmeals] = useState([])
-      const [loading, setloading] = useState(false)
+
+
+
+const base_URL = "https://www.themealdb.com/api/json/v1/1/categories.php"
+
+const {data,isError,isLoading} = useQuery({
+    queryKey: ['meals'],
+    queryFn:async()=>{
+        const {data} = await axios.get(base_URL)
+        return data.categories
+    },
+    cacheTime: 1000 * 60 * 5,
+    
+})
+console.log(data);
         
-        if (loading) {
+        if (isLoading) {
           return <div className="flex justify-center items-center h-screen">
-            <span class="loader"></span>
+            <span className="loader"></span>
           </div>
         }
   
-    function getMeals() {
+ 
 
-        axios.get("https://www.themealdb.com/api/json/v1/1/categories.php")
-            .then((res) => {
-                setmeals(res.data.categories)
-            })
-            
-    }
-    console.log(meals);
-    
-    useEffect(() => {
-  setloading(true)
-        async function getM() {
-            await getMeals()    
-        }
-    getM()
-      setloading(false)
-    }, [])
-    
     var settings = {
         dots: false,
         infinite: true,
@@ -78,10 +76,10 @@ export default function dishes() {
             <Slider {...settings}>
                 
                     
-                {meals.map((meal) => (
+                {data.map((meal) => (
                     <div  key={meal.idCategory} className='flex px-3 mx-3  flex-col justify-center items-center h-[160px] w-[30px] bg-[#EFEFF1] gap-12 mt-20'>
                         <Link rel='preload' href={`categories/${meal.strCategory}`} className='w-[200px] transform duration-1000 transition-transform hover:rotate-[20deg] outline-none flex justify-center items-center translate-x-[55px] mt-8 translate-y-[-70px]'>
-                            <img className='w-full shadow-xl rounded-full' src={meal.strCategoryThumb} alt={meal.strCategory} />
+                        <Image src={meal.strCategoryThumb} alt={meal.strCategory} width={200} height={250} className="rounded-full shadow-xl" />
                         </Link>
                         <h3 className='text-center  translate-y-[-40px]'>{meal.strCategory}</h3> 
                         

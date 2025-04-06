@@ -6,10 +6,10 @@ export default function Home() {
   return (
     <div className='bg-[url("/gry.jpg")] bg-center p-2 '>
         <Body />
-        <div className="">
+        
         <Dishes />
 
-        </div>
+        
     </div>
   );
 }
