@@ -6,6 +6,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Name() {
     const [meals, setmeals] = useState([])
@@ -103,14 +104,18 @@ export default function Name() {
                     
                 {meals.map((meal) => (
                    
-                    <Link  rel="preconnect" key={meal.idMeal} href={`/meals/${meal.strMeal}`} className="group  relative block  bg-black">
-                    <img
-                      loading="lazy" 
-
-                      alt={meal.strCategory}
-                      src={meal.strMealThumb}
-                      className="absolute inset-0 h-full w-full object-cover opacity-75 transition-opacity group-hover:opacity-50"
-                    />
+                   <Link
+                   key={meal.idMeal}
+                   href={`/meals/${meal.strMeal}`}
+                   className="group relative block bg-black h-[300px] overflow-hidden"
+                 >
+                   <Image
+                     width={400}
+                     height={300}
+                     alt={`${meal.strCategory}`}
+                     src={`${meal.strMealThumb}`}
+                     className="absolute inset-0 h-full w-full object-cover opacity-75 transition-opacity group-hover:opacity-50"
+                   />
                   
                     <div className="relative p-4 sm:p-6 lg:p-8">
                       <p className="text-sm font-medium animate-pulse uppercase tracking-widest text-pink-500">{name}</p>

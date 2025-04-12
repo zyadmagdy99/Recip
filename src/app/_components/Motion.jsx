@@ -12,3 +12,14 @@ function Motion() {
 }
 
 export default Motion
+
+// const debounce = (func, delay)=>{
+//   let timer ;
+//   return (...arg) =>{
+//     clearTimeout(timer)
+//     timer = setTimeout(()=>{
+//       func.apply(this,arg)
+//     },delay)
+//   }
+// }
+// const handleDelete = debounce(_,2000)
